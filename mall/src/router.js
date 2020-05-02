@@ -10,9 +10,18 @@ import Mine from "./views/Mine.vue";
 import GoodDetail from './views/GoodDetail'
 import FootBar from './components/FootBar'
 import Payment from './views/Payment'
+import Chatting from './views/Chatting.vue';
+
+
+
 // 要告诉 vue 使用 vueRouter
 Vue.use(VueRouter);
 
+import Router from 'vue-router'
+const routerPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return routerPush.call(this, location).catch(error=> error)
+}
 const routes = [
     {
         path:"/",
@@ -64,7 +73,13 @@ const routes = [
         components:{
             default:Payment
         }
-    }
+    },
+    {
+        path: '/chatting',
+        name: 'Chatting',
+        component: Chatting,
+      },
+      
 ]
 
 var router =  new VueRouter({

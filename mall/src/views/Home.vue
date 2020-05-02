@@ -25,8 +25,9 @@
           </router-link>
           <p>ootd|对镜自拍</p>
           <div class="variety-item-intro">
-            <img class="user" />
-            <span class="user-name">爱吃兔子的胡萝卜</span>
+            <!-- <img class="user" />
+            <span class="user-name">爱吃兔子的胡萝卜</span> -->
+            <span class="price">￥100</span>
             <div class="likes">
               <van-icon name="like-o" />
               <van-icon name="like" v-if="0" />
@@ -123,6 +124,9 @@ export default {};
     float: left;
     margin-left: 0.1rem;
     margin-top: -0.03rem;
+  }
+  .price{
+    float: left;
   }
 }
 </style>

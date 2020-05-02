@@ -1,6 +1,6 @@
 <template>
   <div class="mine">
-    <div class="login" v-if="0">
+    <div class="login" v-if="1">
       <div class="user">
         <div class="user-img">
           <img />
@@ -53,7 +53,10 @@
         </van-tabs>
       </div>
     </div>
-    <div class="unlogin">
+    <div class="unlogin" v-if="0">
+      <div class="unlogin-img">
+        <img class="unlogin-user-img">
+      </div>
       <van-form @submit="onSubmit">
   <van-field
     v-model="username"
@@ -70,11 +73,15 @@
     placeholder="密码"
     :rules="[{ required: true, message: '请填写密码' }]"
   />
-  <div style="margin: 16px;">
-    <van-button round block type="info" native-type="submit">
-      提交
+  <div class="btn">
+    <van-button round block type="info" native-type="submit" class="submit">
+      登录
+    </van-button>
+     <van-button round block type="info" native-type="submit" class="register">
+      注册
     </van-button>
   </div>
+ 
 </van-form>
     </div>
   </div>
@@ -105,6 +112,19 @@ li {
   margin: 0 auto;
   margin-top: 0.5rem;
 }
+.unlogin-img{
+  width: 1rem;
+  height: 1rem;
+  margin: 0 auto;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+.unlogin-user-img{
+  width:100%;
+  height:100%;
+  border-radius: 50%;
+  background: yellowgreen;
+}
 img {
   width: 100%;
   height: 100%;
@@ -128,5 +148,23 @@ img {
 }
 .user-label-sp {
   width: 1.2rem;
+}
+.btn{
+  margin:1rem 0.2rem;
+}
+.submit{
+  margin-bottom: 0.2rem;
+  font-size: 0.32rem;
+}
+.register{
+  background: none;
+  color:#1989fa;
+  font-size: 0.32rem;
+}
+</style>
+<style>
+.unlogin .van-cell{
+  font-size: 0.32rem;
+  line-height:0.55rem;
 }
 </style>

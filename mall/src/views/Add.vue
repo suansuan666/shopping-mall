@@ -22,7 +22,6 @@
         />
       </van-cell-group>
       <van-goods-action>
- 
   <van-goods-action-button type="danger" text="发布" />
 </van-goods-action>
     </div>

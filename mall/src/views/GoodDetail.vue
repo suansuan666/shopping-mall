@@ -36,6 +36,10 @@ export default {
     },
     payment(){
         this.$router.push({name:'payment',params: {goodId: '111'}})
+    },
+    chat(){
+     
+      this.$router.push({path:"/chatting"})
     }
   }
 };
