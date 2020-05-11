@@ -1,33 +1,89 @@
 <template>
   <div class="community">
     <div class="wrapper">
-      <div class="title">
+      <ul>
+        <li v-for="(item,index) in items" :key="index">
+           <div class="title">
         <div class="user-img">
-          <img class="user" />
+          <img  :src="item.url" class="user" />
         </div>
         <div class="user-info">
-          <div class="user-name">爱吃兔子的胡萝卜</div>
-          <div class="user-time">03-13</div>
+          <div class="user-name">{{item.userName}}</div>
+          <div class="user-time">{{item.date}}</div>
         </div>
       </div>
       <div>
         <div class="issue">
-          <img class="issue-img" />
+          <img class="issue-img" :src="item.issue"/>
         </div>
         <p
           class="intro"
-        >Vant 是有赞开源的一套基于 Vue 2.0 的 Mobile 组件库。通过Vant，可以快速搭建出风格统一的页面，提升开发效率。目前已有近 50 个组件，这些组件被广泛使用于有赞的各个移动端业务中。 Vant 旨在更快、更简单地开发基于 Vue 的美观易用的移动站点。</p>
+        >{{item.comment}}</p>
         <div class="icon">
           <van-icon name="like-o" />
           <van-icon name="like" v-if="0" />
           <van-icon name="chat-o" />
         </div>
       </div>
+        </li>
+      </ul>
+     
     </div>
   </div>
 </template>
 <script>
-export default {};
+import axios from "axios";
+import Qs from "qs";
+import {getCookie} from '../util.js'
+export default {
+  data(){
+    return{
+      userId:'',
+      items:[{
+        url:require('../assets/img/用户.png'),
+        userName:'球球是只猫',
+        date:'05-01',
+        issue:require('../assets/img/coach包.jpg'),
+        comment:'自己海淘的coach tabby ，这个包今年风超大，可是买回来觉得不太适合自己，所以就闲置出来了，感兴趣的快来找我聊聊吧'
+      },
+      {
+         url:require('../assets/img/女孩.png'),
+        userName:'喜欢吃火锅的罗希',
+        date:'04-21',
+        issue:require('../assets/img/手机壳.jpg'),
+        comment:'前俩月买的xs手机壳，用了差不多一周吧，99新。'
+      }
+      ]
+    }
+  },
+  methods:{
+    getInfo(){
+       let data = {
+       userId:this.userId
+      };
+      axios({
+        method: "post",
+        url: "/goods/getMainInfoByUserId",
+        data: Qs.stringify(data)
+      })
+        .then(res => {
+          if (res.data.code == 0) {
+          this.items=res.data.data;
+          
+          }
+        })
+        .catch(res => {
+          console.log(res);
+        });
+    }
+  },
+  created(){
+   
+    this.userId=getCookie('userId');
+  //   this.getInfo();
+    // console.log(a);
+  }
+};
 </script>
 <style scoped>
 .wrapper {
@@ -38,12 +94,12 @@ export default {};
   padding-top: 0.3rem;
   padding-bottom: 0.1rem;
 }
-.user {
+/* .user {
   width: 100%;
   height: 100%;
   border-radius: 50%;
   background: orange;
-}
+} */
 .user-img {
   width: 0.6rem;
   height: 0.6rem;
@@ -58,7 +114,7 @@ export default {};
   margin-top: -0.1rem;
 }
 .issue {
-  height: 3rem;
+  height: 5rem;
 }
 .issue-img {
   width: 100%;

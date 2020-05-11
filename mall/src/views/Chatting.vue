@@ -1,6 +1,12 @@
 <template>
   <div class="chat-box">
-    <header>聊天室人数：{{count}}</header>
+     <van-nav-bar
+      :title="seller.userName"
+      left-text="返回"
+      left-arrow
+      @click-left="onClickLeft"
+    />
+    <!-- <header>正在与卖家聊天</header> -->
     <div class="msg-box" ref="msg-box">
       <div
         v-for="(i,index) in list"
@@ -13,8 +19,10 @@
             class="head"
             :style="` background: hsl(${getUserHead(i.userId,'bck')}, 88%, 62%); clip-path:polygon(${getUserHead(i.userId,'polygon')}% 0,100% 100%,0% 100%); transform: rotate(${getUserHead(i.userId,'rotate')}deg)`"
           ></div> -->
-          <van-icon name="manager" color="#1989fa" size="20"/>
-         
+          <!-- <van-icon name="manager" color="#1989fa" size="20"/> -->
+         <div>
+           <img src="../assets/img/用户.png">
+         </div>
         </div>
         <div class="user-msg">
           <span
@@ -39,7 +47,10 @@ export default {
       count: 0,
       userId: null, //当前用户ID
       list: [], //聊天记录的数组
-      contentText: "" //input输入的值
+      contentText: "" ,//input输入的值
+      seller:{
+        userName:'爱吃鱼的猫'
+      }
     };
   },
   created() {
@@ -49,6 +60,9 @@ export default {
     this.initWebSocket();
   },
   methods: {
+    onClickLeft(){
+      this.$router.push({name:'good-detail'})
+    },
     //根据时间戳作为当前用户ID
     getUserID() {
       let time = new Date().getTime();
@@ -83,7 +97,12 @@ export default {
         userId: _this.userId,
         msg: _this.contentText
       };
-      _this.ws.send(JSON.stringify(params)); //调用WebSocket send()发送信息的方法
+       if (_this.ws.readyState===1) {
+        _this.ws.send(JSON.stringify(params))
+    }else{
+        //do something
+    }
+     // _this.ws.send(JSON.stringify(params)); //调用WebSocket send()发送信息的方法
       _this.contentText = "";
       setTimeout(() => {
         _this.scrollBottm();
@@ -95,7 +114,7 @@ export default {
       //判断页面有没有存在websocket连接
       if (window.WebSocket) {
         // 192.168.0.104 是我本地IP地址 此处的 :8181 端口号 要与后端配置的一致
-        let ws = new WebSocket("ws://192.168.0.104:8181");
+        let ws = new WebSocket("ws://192.168.0.100:8181");
         _this.ws = ws;
         ws.onopen = function() {
           console.log("服务器连接成功");
@@ -142,7 +161,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: bold;
     color: white;
     font-size: 0.4rem;
   }
@@ -150,7 +168,7 @@ export default {
     position: absolute;
     // height: calc(100% - 6.5rem);
     width: 100%;
-    margin-top: 1rem;
+    margin-top: 0.3rem;
     overflow-y: scroll;
     .msg {
       width: 95%;
@@ -163,9 +181,9 @@ export default {
       .user-head {
         
          width: 20%;
-        width: 0.8rem;
-        height: 0.8rem;
-        border-radius: 50%;
+        width: 0.7rem;
+        height: 0.7rem;
+        // border-radius: 50%;
         background: #f1f1f1;
         display: flex;
         justify-content: center;
@@ -191,8 +209,10 @@ export default {
         }
         .left {
             max-width:50%;
-            margin-right:-0.3rem;
-          background: white;
+            float:right;
+            margin-right:1rem;
+         background: #53a8ff;
+         color: white;
           animation: toLeft 0.5s ease both 1;
         }
         .right {

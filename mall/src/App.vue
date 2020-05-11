@@ -20,16 +20,7 @@ export default {
   components: {
     
   },
-   created() {
-    localStorage.addr = '未知';
-
-    this.axios.get('https://zhaoplus.com/api/ip')
-      .then(result => {
-        if (result.data.content.address) {
-          localStorage.addr = result.data.content.address;
-        }
-      })
-  }
+   
 };
 </script>
 

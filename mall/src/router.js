@@ -11,7 +11,7 @@ import GoodDetail from './views/GoodDetail'
 import FootBar from './components/FootBar'
 import Payment from './views/Payment'
 import Chatting from './views/Chatting.vue';
-
+import Kinds from './views/Kinds.vue'
 
 
 // 要告诉 vue 使用 vueRouter
@@ -61,7 +61,8 @@ const routes = [
         }
     },
     {
-        path: "/goodDetail/:goodId",
+        // path: "/goodDetail/:goodId",
+        path:'/good-detail',
         name:'good-detail',
         components: {
             default:GoodDetail,  
@@ -79,7 +80,11 @@ const routes = [
         name: 'Chatting',
         component: Chatting,
       },
-      
+      {
+          path:'/kinds',
+          name:'kinds',
+          component:Kinds
+      }
 ]
 
 var router =  new VueRouter({

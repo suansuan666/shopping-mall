@@ -1,11 +1,11 @@
 <template>
   <div class="mine">
-    <div class="login" v-if="1">
+    <div class="login" v-if="login">
       <div class="user">
         <div class="user-img">
-          <img />
+          <img src="../assets/img/用户.png">   
         </div>
-        <span class="user-name">爱吃兔子的萝卜</span>
+        <span class="user-name">不爱吃鱼的猫</span>
         <ul class="user-nav">
           <li class="user-label">
             <span>关注</span>
@@ -15,8 +15,8 @@
             <span>粉丝</span>
             <span>10</span>
           </li>
-          <li class="user-label-sp">
-            <span>获赞与收藏</span>
+          <li class="user-label">
+            <span>收藏</span>
             <span>10</span>
           </li>
         </ul>
@@ -24,11 +24,9 @@
       <div class="transcations">
         <van-tabs v-model="active">
           <van-tab title="已上传商品">
-            <van-card
-              num="2"
-              price="2.00"
-              desc="描述信息"
-              title="商品标题"
+            <van-card 
+              price="3500"
+              title="二手闲置99新的iPad Air"
               thumb="https://img.yzcdn.cn/vant/ipad.jpeg"
             />
           </van-tab>
@@ -43,8 +41,7 @@
           </van-tab>
           <van-tab title="下线商品">
             <van-card
-              num="2"
-              price="2.00"
+              price="3500"
               desc="描述信息"
               title="商品标题"
               thumb="https://img.yzcdn.cn/vant/ipad.jpeg"
@@ -53,9 +50,10 @@
         </van-tabs>
       </div>
     </div>
-    <div class="unlogin" v-if="0">
+    <div class="unlogin" v-if="unlogin">
       <div class="unlogin-img">
-        <img class="unlogin-user-img">
+        <!-- <img class="unlogin-user-img"> -->
+         <img src="../assets/img/用户.png"> 
       </div>
       <van-form @submit="onSubmit">
   <van-field
@@ -74,10 +72,10 @@
     :rules="[{ required: true, message: '请填写密码' }]"
   />
   <div class="btn">
-    <van-button round block type="info" native-type="submit" class="submit">
+    <van-button round block type="info" class="submit" @click="Login">
       登录
     </van-button>
-     <van-button round block type="info" native-type="submit" class="register">
+     <van-button round block type="info"  class="register" @click="regist">
       注册
     </van-button>
   </div>
@@ -87,18 +85,42 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+import Qs from "qs";
 export default {
   data() {
     return {
       active: 2,
-       username: '',
+      username: '',
       password: '',
+      login:false,
+      unlogin:true,
     };
   },
    methods: {
     onSubmit(values) {
       console.log('submit', values);
     },
+    Login(){
+       let data = {
+        userName: this.username,
+        password: this.password
+      };
+      axios({
+        method: "post",
+        url: "/user/login",
+        data: Qs.stringify(data)
+      })
+        .then(res => {
+          if (res.data.code == 0) {
+           this.unlogin=false;
+           this.login=true;
+          }
+        })
+        .catch(res => {
+          console.log(res);
+        });
+    }
   },
 };
 </script>
@@ -119,28 +141,28 @@ li {
   margin-top: 1.5rem;
   margin-bottom: 1rem;
 }
-.unlogin-user-img{
-  width:100%;
-  height:100%;
-  border-radius: 50%;
-  background: yellowgreen;
-}
-img {
+
+/* img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: orange;
-}
+  background: url('../assets/img/用户.png') no-repeat;
+ background-size:100%;
+ border:0;
+} */
+
 .user-name {
   display: block;
   margin: 0 auto;
   margin-top: 0.05rem;
+  font-size: 0.3rem;
 }
 .user-nav {
-  width: 3.3rem;
+  width: 3rem;
   height: 1rem;
   margin: 0 auto;
   margin-top: 0.1rem;
+  font-size: 0.25rem;
 }
 .user-label {
   width: 0.5rem;
@@ -160,6 +182,9 @@ img {
   background: none;
   color:#1989fa;
   font-size: 0.32rem;
+}
+.mine .van-tab__text {
+  font-size: 0.25rem !important;
 }
 </style>
 <style>
