@@ -1,11 +1,6 @@
 <template>
   <div class="chat-box">
-     <van-nav-bar
-      :title="seller.userName"
-      left-text="返回"
-      left-arrow
-      @click-left="onClickLeft"
-    />
+    <van-nav-bar :title="seller.userName" left-text="返回" left-arrow @click-left="onClickLeft" />
     <!-- <header>正在与卖家聊天</header> -->
     <div class="msg-box" ref="msg-box">
       <div
@@ -18,11 +13,11 @@
           <!-- <div
             class="head"
             :style="` background: hsl(${getUserHead(i.userId,'bck')}, 88%, 62%); clip-path:polygon(${getUserHead(i.userId,'polygon')}% 0,100% 100%,0% 100%); transform: rotate(${getUserHead(i.userId,'rotate')}deg)`"
-          ></div> -->
+          ></div>-->
           <!-- <van-icon name="manager" color="#1989fa" size="20"/> -->
-         <div>
-           <img src="../assets/img/用户.png">
-         </div>
+          <div>
+            <img src="../assets/img/用户.png" />
+          </div>
         </div>
         <div class="user-msg">
           <span
@@ -30,7 +25,7 @@
             :class="i.userId == userId?'right':'left'"
           >{{i.content}}</span>
         </div>
-      </div>    
+      </div>
     </div>
     <div class="input-box">
       <input type="text" ref="sendMsg" v-model="contentText" @keyup.enter="sendText()" />
@@ -47,9 +42,9 @@ export default {
       count: 0,
       userId: null, //当前用户ID
       list: [], //聊天记录的数组
-      contentText: "" ,//input输入的值
-      seller:{
-        userName:'爱吃鱼的猫'
+      contentText: "", //input输入的值
+      seller: {
+        userName: "爱吃鱼的猫"
       }
     };
   },
@@ -60,8 +55,8 @@ export default {
     this.initWebSocket();
   },
   methods: {
-    onClickLeft(){
-      this.$router.push({name:'good-detail'})
+    onClickLeft() {
+      this.$router.push({ name: "good-detail" });
     },
     //根据时间戳作为当前用户ID
     getUserID() {
@@ -97,12 +92,12 @@ export default {
         userId: _this.userId,
         msg: _this.contentText
       };
-       if (_this.ws.readyState===1) {
-        _this.ws.send(JSON.stringify(params))
-    }else{
+      if (_this.ws.readyState === 1) {
+        _this.ws.send(JSON.stringify(params));
+      } else {
         //do something
-    }
-     // _this.ws.send(JSON.stringify(params)); //调用WebSocket send()发送信息的方法
+      }
+      // _this.ws.send(JSON.stringify(params)); //调用WebSocket send()发送信息的方法
       _this.contentText = "";
       setTimeout(() => {
         _this.scrollBottm();
@@ -173,14 +168,13 @@ export default {
     .msg {
       width: 95%;
       min-height: 1rem;
-    //   margin-bottom: 0.5rem;
-      
+      //   margin-bottom: 0.5rem;
+
       position: relative;
       display: flex;
       justify-content: flex-start !important;
       .user-head {
-        
-         width: 20%;
+        width: 20%;
         width: 0.7rem;
         height: 0.7rem;
         // border-radius: 50%;
@@ -188,35 +182,34 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        right:0;
-         position: absolute;
+        right: 0;
+        position: absolute;
       }
       .user-msg {
         width: 80%;
-         position: absolute;
+        position: absolute;
         word-break: break-all;
         position: absolute;
-        right:0;
+        right: 0;
         z-index: 5;
         span {
-            // max-width:3rem;
+          // max-width:3rem;
           display: inline-block;
-          padding: 0.1rem ;
+          padding: 0.1rem;
           border-radius: 0.2rem;
           margin-top: 0.1rem;
           font-size: 0.3rem;
-         
         }
         .left {
-            max-width:50%;
-            float:right;
-            margin-right:1rem;
-         background: #53a8ff;
-         color: white;
+          max-width: 50%;
+          float: right;
+          margin-right: 1rem;
+          background: #53a8ff;
+          color: white;
           animation: toLeft 0.5s ease both 1;
         }
         .right {
-            margin-right:1rem;
+          margin-right: 1rem;
           background: #53a8ff;
           color: white;
           animation: toright 0.5s ease both 1;
@@ -245,7 +238,6 @@ export default {
     }
   }
   .input-box {
-    
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -266,15 +258,14 @@ export default {
     }
     .btn {
       height: 0.5rem;
-     width:2rem;
+      width: 2rem;
       background: #409eff;
       padding: 0.1rem;
       font-size: 0.3rem;
       color: white;
       text-align: center;
       border-radius: 0.1rem;
-    //   margin-left: 0.5rem;
-     
+      //   margin-left: 0.5rem;
     }
     .btn-active {
       background: #409eff;
